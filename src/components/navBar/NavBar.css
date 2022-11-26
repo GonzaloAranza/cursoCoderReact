@@ -1,0 +1,21 @@
+nav{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.navBar{
+    width: 80%;
+    height: 100%;
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+
+}
+.navbar-Item{
+    list-style-type:  none;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #e1d4c7;
+    padding: 1%;
+}
