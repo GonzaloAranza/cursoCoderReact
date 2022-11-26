@@ -1,5 +1,6 @@
 import "./Header.css";
 import NavBar from "../navBar/NavBar"
+import CartWidget from "../cartWidget/CartWidget";
 
 const Header = () =>{
 return(
@@ -10,8 +11,8 @@ return(
     />
     </div>
     <NavBar/>
-    
-    <div>carrito (componente)</div>
+    <CartWidget />
+
 </header>
 )
 }
