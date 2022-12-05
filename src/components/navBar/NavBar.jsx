@@ -1,4 +1,5 @@
 import "./NavBar.css";
+import CartWidget from "../cartWidget/CartWidget";
 
 
 const NavBar = () => {
@@ -13,6 +14,7 @@ const NavBar = () => {
             <li className="navbar-Item">memorias</li>
         </ul>
 
+        <CartWidget />
         
     </nav>
   );

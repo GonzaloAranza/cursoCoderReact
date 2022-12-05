@@ -1,7 +1,7 @@
 
-const ItemListContainer = () => {
+const ItemListContainer = ({props}) => {
   return (
-    <div>ItemListContainer</div>
+    <div>aca recibo lo que me manda app.js:  {props}</div>
   )
 }
 
