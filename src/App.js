@@ -6,7 +6,7 @@ function App() {
   return (
     <>
     <Header />
-    <ItemListContainer props={'le estoy mandando al componente lo que tiene que poner'}/>
+    <ItemListContainer props={'prueba de modificar el proyecto en otra compu'}/>
     </>
     
     );
