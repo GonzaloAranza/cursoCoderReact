@@ -1,4 +1,5 @@
 
+import Counter from "./components/counter/Counter";
 import Header from "./components/header/Header";
 import ItemListContainer from "./components/itemListContainer/ItemListContainer";
 
@@ -6,8 +7,10 @@ function App() {
   return (
     <>
     <Header />
-    <ItemListContainer props={'prueba de modificar el proyecto en otra compu'}/>
-    </>
+    <Counter />
+    <ItemListContainer props={'lista de articulos'}/>
+  
+    </> 
     
     );
 }
