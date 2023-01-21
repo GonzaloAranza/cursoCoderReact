@@ -1,84 +1,69 @@
-import { useState , useEffect } from "react"
-import ItemCount from "../itemCount/ItemCount"
-import "./ItemListContainer.css"
-import  {products} from "../../productsMock"
-import ItemList from "../itemList/ItemList"
-import { useParams } from "react-router-dom"
+import {useState, useEffect} from 'react'
+import { useParams } from 'react-router-dom'
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import ItemList from '../ItemList/ItemList'
+import {productos} from '../../productsMock'
+
+function ItemListContainer({greeting}) {
+
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
+    const { idCategory } = useParams()
+/*
+    useEffect(() => {
+        const db = getFirestore();
+        if (idCategory) {
+            const queryCollectionCategory = query(collection(db, 'items'), where('category', '==', idCategory) )
+            getDocs(queryCollectionCategory)
+            .then(resp => setProducts( resp.docs.map(prod => ({ id: prod.id, ...prod.data()}))))
+            .finally(() => setLoading(false))
 
 
- 
-
-  const ItemListContainer = ({props}) => {
-
-   const [isDark, setIsDark] = useState(false)
-
-   const toggleMode = () =>{
-     setIsDark(!isDark)
-   }
-
-  //el useEffect se va a ejecutar cuando  el componente esté renderizado, siempre que haya un cambio se vuelve a renderizar
-   useEffect( () =>{
-   })
-
- // useEffect con array de dependencia se ejecuta solo cuando renderiza por primera vez
-   useEffect( () =>{
-   }, [] //ARREGLO DE DEPENDENCIAS
-   )
-  
-  // //useEffect que esté a la espera de la escucha de isDark
-  // useEffect( () =>{
-  //   console.log("hola dentro del efecto con array de dependecia a la escucha")
-  // }, [ isDark] //ARREGLO DE DEPENDENCIAS
-  // )
-
- const onAdd = (mensaje) =>{
-   alert(mensaje)
- }
-
-const [items , setItems] = useState([])
-
-const {categoryName} = useParams()
-console.log(categoryName)
-
-useEffect(()=>{
-  const task = new Promise( (resolve, reject) =>{
-    const productsFiltered = products.filter( productos => productos.category === categoryName)
-    console.log(productsFiltered)
-    setTimeout(() => {
-      resolve(categoryName ? productsFiltered : products)
-    }, 1500);
-    
-    
-    }
-)
-
-task
-      .then(  (res)=>{  setItems  (   res  ) } )
-      .catch( (err) =>{console.log(err )})
+        } else {
+            const queryCollection = collection(db, 'items')
+            getDocs(queryCollection)
+            .then(resp => setProducts( resp.docs.map(prod => ({ id: prod.id, ...prod.data()}))))
+            .finally(() => setLoading(false))
 
 
-},[categoryName])
+        }  
 
+        
+    }, [idCategory])
+*/
+    useEffect(()=>{
+        const task = new Promise( (resolve, reject) =>{
+          const productsFiltered = productos.filter( productos => productos.category === idCategory)
+          console.log(productsFiltered)
+          setTimeout(() => {
+            resolve(idCategory ? productsFiltered : productos)
+          }, 1500);
+          
+          
+          }
+      )
+      
+      task
+            .then(  (res)=>{  setProducts  (   res  ) } )
+            .catch( (err) =>{console.log(err )})
+      
+      
+      },[idCategory])
 
+      
 
-
-
-  return (
-      <div className={isDark ? "itemsContainer-dark": "itemsContainer-light" } >
-
-
-          <h2> {props}</h2>
-
-          <button onClick={toggleMode}>
-                  {isDark ? 'cambiar a modo claro':'cambiar a modo oscuro'} 
-            </button>
-  
-          <ItemCount stock={10} onAdd={onAdd}/>
-
-          <ItemList items={items}/>
-
-      </div>
-  )
+    return (
+        <div>
+            <h2 className="text-center"> {greeting} </h2>
+            <div className="container">
+                <div className="row">
+                                       
+                        <ItemList products={products}/>
+                    
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default ItemListContainer

@@ -1,28 +1,36 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
+import {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
-import { products } from '../../productsMock'
-const ItemDetailContainer = () => {
+import ItemDetail from '../ItemDetail/ItemDetail'
+import {productos} from '../../productsMock'
 
-const [product, setProduct] = useState({})
+function ItemDetailContainer() {
 
-const { id } = useParams()
+    const {idProduct} = useParams()
+    const [product, setProduct] = useState({})
+    /*
+    useEffect(() => {
+        const db = getFirestore()
+        const queryDb = doc(db, 'items', idProduct )
+        getDoc(queryDb)
+        .then(resp => setProduct( { id: resp.id, ...resp.data() } ))
+        .finally(() => setLoading(false))
+    }, [idProduct])
+*/
 
-
-useEffect (()=>{
-    const productSelected = products.find( producto => producto.id == id)
-    setProduct(productSelected)
-}
-,[id])
-
-console.log(product)
- 
-  return (
-    <div>
-    <h1>{product.name}</h1>
-    <span>{product.description}</span>
-    </div>
-  )
+useEffect(() => {
+    let producto = productos.filter( productos => productos.id === parseInt(idProduct))
+  
+setProduct(producto[0])
+{console.log(product)}
+   
+}, [idProduct])
+    return (
+        <div>
+           
+               <ItemDetail product={product}/>
+            
+        </div>
+    )
 }
 
 export default ItemDetailContainer
