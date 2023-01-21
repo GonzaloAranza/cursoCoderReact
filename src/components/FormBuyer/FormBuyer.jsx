@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react'
 import { CartContext } from '../CartContext/CartContext'
 import { Link } from 'react-router-dom'
+import { getFirestore, collection,  addDoc, Timestamp} from 'firebase/firestore'
 
 
 const FormBuyer = () => {
@@ -47,27 +48,13 @@ const FormBuyer = () => {
         .catch(err => console.log(err))
         .finally(() => { 
             setCreatingOrder(false)
-            updateStock()
             emptyCart()
             setFormData({
                 name:"", email:"", emailConfirm:"", phone:""
             })
         })
 
-        function updateStock() {
-            const batch = writeBatch(db)
 
-            order.items.map(el => {
-                let updateDoc = doc(db, 'items', el.id)
-                let currentStock = cartList.find(item => item.id === el.id).stock
-
-                batch.update( updateDoc, {
-                    stock: currentStock - el.quantity
-                })
-            })
-
-            batch.commit()
-        }
     }
 
     return (
@@ -84,7 +71,6 @@ const FormBuyer = () => {
                     <div className="py-5 text-center mt-5">
                         <h2 className="mt-5">¡Gracias por elegirnos!</h2>
                         <h4 className="my-5">La compra se ha realizado exitosamente.</h4>
-                        <strong>El ID de tu compra es {orderId}</strong><br />
                         <Link className="btn btn-danger bg-gradient mt-5" to={`/`}>
                             <strong>Volver al inicio</strong>
                         </Link>
@@ -101,19 +87,19 @@ const FormBuyer = () => {
                                 >
                                     <div className="mb-3 d-flex flex-column align-items-center">
                                         <label className="form-label">Nombre</label>
-                                        <input type="name" className="form-control form-control--color" name="name" placeholder="Pedrito Pedrazo" defaultValue={formData.name} required />
+                                        <input type="name" className="form-control form-control--color" name="name" placeholder="" defaultValue={formData.name} required />
                                     </div>
                                     <div className="mb-3 d-flex flex-column align-items-center">
                                         <label className="form-label">Teléfono</label>
-                                        <input type="number" className="form-control form-control--color" name="phone" placeholder="15xxxxxxxxx" defaultValue={formData.phone} required />
+                                        <input type="number" className="form-control form-control--color" name="phone" placeholder="" defaultValue={formData.phone} required />
                                     </div>
                                     <div className="mb-3 d-flex flex-column align-items-center">
                                         <label className="form-label">Email</label>
-                                        <input type="email" className="form-control form-control--color" name="email" placeholder="pedrito@ejemplo.com" defaultValue={formData.email} required />
+                                        <input type="email" className="form-control form-control--color" name="email" placeholder="" defaultValue={formData.email} required />
                                     </div>
                                     <div className="mb-3 d-flex flex-column align-items-center">
                                         <label className="form-label">Confirmar Email</label>
-                                        <input type="email" className="form-control form-control--color" name="emailConfirm" placeholder="pedrito@ejemplo.com" defaultValue={formData.emailConfirm} required />
+                                        <input type="email" className="form-control form-control--color" name="emailConfirm" placeholder="" defaultValue={formData.emailConfirm} required />
                                     </div>
                                     <button className="btn btn-danger bg-gradient d-flex justify-content-center w-50 align-self-center" 
                                         disabled={!formData.name || !formData.phone || !formData.email || formData.email !== formData.emailConfirm || cartList.length == 0}>
